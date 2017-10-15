@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package graber;
+
+service GragPhoto {
+    rpc Get(Tag) returns(Photo){}
+}
+
+service DownloadById {
+    rpc Download(Id) returns(Photo){}
+}
+
+message Tag {
+    string Tag = 1;
+}
+
+message Id {
+    string Url = 1;
+}
+
+message Photo {
+    bytes Image = 1;
+}
