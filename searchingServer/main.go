@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	pg "github.com/KitlerUA/GetMePhoto/photoGraber"
+	pg "github.com/KitlerUA/GetMePhoto/graber"
 	"github.com/Sirupsen/logrus"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"

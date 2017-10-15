@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	pg "github.com/KitlerUA/GetMePhoto/photoGraber"
+	pg "github.com/KitlerUA/GetMePhoto/graber"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
