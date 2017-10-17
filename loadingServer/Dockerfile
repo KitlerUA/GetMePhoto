@@ -1,8 +1,6 @@
 FROM golang
 
-ADD . /go/src/github.com/KitlerUA/GetMePhoto/loadingServer
-
-RUN go get github.com/KitlerUA/GetMePhoto/graber
+ADD . /go/src/github.com/KitlerUA/GetMePhoto
 
 RUN go get github.com/Sirupsen/logrus
 
