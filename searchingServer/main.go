@@ -68,7 +68,7 @@ func (server) Get(ctx context.Context, tag *pg.Tag) (*pg.Photo, error) {
 	defer cncl()
 	conn, err = grpc.DialContext(ctx, defaultConnection, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
-		log.Fatal("cannot connect to server")
+		log.Fatalf("cannot connect to server: %v", err)
 		//time.Sleep(500*time.Microsecond)
 		//continue
 	}

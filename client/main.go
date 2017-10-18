@@ -15,7 +15,7 @@ func main() {
 	backend := flag.String("back", "localhost:50111", "server port")
 	flag.Parse()
 
-	conn, err := grpc.Dial(*backend, grpc.WithInsecure())
+	conn, err := grpc.Dial(*backend, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 
 	}
