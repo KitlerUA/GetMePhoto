@@ -25,7 +25,7 @@ func main() {
 	tag := &pg.Tag{Tag: "pira"}
 	result, err := client.Get(context.Background(), tag)
 	if err != nil {
-		log.Fatalf("could not say %s: %v", tag.Tag, err)
+		log.Fatalf("could not find image which contains %s: %v", tag.Tag, err)
 	}
 	if err = ioutil.WriteFile("temp.png", result.Image, 0666); err != nil {
 		fmt.Errorf("cannot write to file")
