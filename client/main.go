@@ -22,13 +22,13 @@ func main() {
 	defer conn.Close()
 
 	client := pg.NewGragPhotoClient(conn)
-	tag := &pg.Tag{Tag: "pira"}
+	tag := &pg.Tag{Tag: "Pira"}
 	result, err := client.Get(context.Background(), tag)
 	if err != nil {
 		log.Fatalf("could not find image which contains %s: %v", tag.Tag, err)
 	}
 	if err = ioutil.WriteFile("temp.png", result.Image, 0666); err != nil {
-		fmt.Errorf("cannot write to file")
+		log.Fatalf("cannot write to file")
 		return
 	}
 	fmt.Println("File created")

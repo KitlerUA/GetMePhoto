@@ -14,6 +14,9 @@ import (
 	"github.com/Sirupsen/logrus"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	//"time"
+	"log"
+	"time"
 )
 
 const (
@@ -42,8 +45,6 @@ type server struct{}
 
 func (server) Get(ctx context.Context, tag *pg.Tag) (*pg.Photo, error) {
 	root := "/home/kitler/Pictures"
-	//fmt.Println(root)
-	//err := filepath.Walk(root, visit)
 	files, err := ioutil.ReadDir(root)
 	if err != nil {
 		fmt.Errorf("cannot read directory %v", root)
@@ -59,21 +60,26 @@ func (server) Get(ctx context.Context, tag *pg.Tag) (*pg.Photo, error) {
 		}
 	}
 
-	fmt.Println(picturePath)
-
-	conn, err := grpc.Dial(defaultConnection, grpc.WithInsecure())
+	//fmt.Println(picturePath)
+	var conn *grpc.ClientConn
+	//retry until connect successfully
+	//for {
+	ctx, cncl := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cncl()
+	conn, err = grpc.DialContext(ctx, defaultConnection, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
-		fmt.Errorf("cannot connect to seerver")
-		return new(pg.Photo), err
+		log.Fatal("cannot connect to server")
+		//time.Sleep(500*time.Microsecond)
+		//continue
 	}
-
+	//break
+	//}
 	client := pg.NewDownloadByIdClient(conn)
 	id := &pg.Id{Url: picturePath}
 	result, err := client.Download(context.Background(), id)
 	if err != nil {
-		fmt.Errorf("cannot download photo")
+		log.Fatalf("cannot download photo: %v", err)
 		return new(pg.Photo), err
 	}
-
 	return result, nil
 }
