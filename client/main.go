@@ -9,15 +9,18 @@ import (
 	pg "github.com/KitlerUA/GetMePhoto/graber"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"time"
 )
 
 func main() {
-	backend := flag.String("back", "localhost:50111", "server port")
+	backend := flag.String("back", "172.18.0.3:50111", "server port")
 	flag.Parse()
 
-	conn, err := grpc.Dial(*backend, grpc.WithInsecure(), grpc.WithBlock())
+	ctx, cncl := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cncl()
+	conn, err := grpc.DialContext(ctx, *backend, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
-
+		log.Fatalf("Cannot connect to serarching server: %v", err)
 	}
 	defer conn.Close()
 

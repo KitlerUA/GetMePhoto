@@ -20,7 +20,7 @@ import (
 )
 
 const (
-	defaultConnection = "localhost:50112"
+	defaultConnection = "172.18.0.2:50112"
 )
 
 func main() {
