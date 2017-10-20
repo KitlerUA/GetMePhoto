@@ -20,7 +20,7 @@ import (
 )
 
 const (
-	defaultConnection = "172.18.0.2:50112"
+	defaultConnection = "172.18.0.1:50112"
 )
 
 func main() {

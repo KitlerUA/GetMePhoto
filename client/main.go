@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	backend := flag.String("back", "172.18.0.3:50111", "server port")
+	backend := flag.String("back", "172.18.0.1:50111", "server port")
 	flag.Parse()
 
 	ctx, cncl := context.WithTimeout(context.Background(), 5*time.Second)
