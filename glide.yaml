@@ -1,0 +1,5 @@
+package: github.com/KitlerUA/GetMePhoto
+import:
+ - package: github.com/Sirupsen/logrus
+ - package: golang.org/x/net/context
+ - package: google.golang.org/grpc
