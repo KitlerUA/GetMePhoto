@@ -14,7 +14,6 @@ import (
 	"github.com/Sirupsen/logrus"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	//"time"
 	"log"
 	"os"
 	"time"
