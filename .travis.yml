@@ -23,3 +23,5 @@ before_install:
  - docker-compose start
 
  - docker ps
+
+after_install:
