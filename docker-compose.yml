@@ -6,6 +6,8 @@ services:
       dockerfile: searching.Dockerfile
     ports:
       - "50111:50111"
+    environment:
+      - DWNLD = "172.18.0.1:50112"
   download:
     build:
       context: .

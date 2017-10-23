@@ -16,6 +16,7 @@ import (
 	"google.golang.org/grpc"
 	//"time"
 	"log"
+	"os"
 	"time"
 )
 
@@ -60,20 +61,22 @@ func (server) Get(ctx context.Context, tag *pg.Tag) (*pg.Photo, error) {
 		}
 	}
 
-	//fmt.Println(picturePath)
 	var conn *grpc.ClientConn
-	//retry until connect successfully
-	//for {
 	ctx, cncl := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cncl()
-	conn, err = grpc.DialContext(ctx, defaultConnection, grpc.WithInsecure(), grpc.WithBlock())
-	if err != nil {
-		log.Fatalf("cannot connect to server: %v", err)
-		//time.Sleep(500*time.Microsecond)
-		//continue
+	if address := os.Getenv("DWNLD"); address != "" {
+		conn, err = grpc.DialContext(ctx, address, grpc.WithInsecure(), grpc.WithBlock())
+		log.Printf("Adrress pass as arg: %v", address)
+		if err != nil {
+			log.Fatalf("cannot connect to server: %v", err)
+		}
+	} else {
+		conn, err = grpc.DialContext(ctx, defaultConnection, grpc.WithInsecure(), grpc.WithBlock())
+		if err != nil {
+			log.Fatalf("cannot connect to server: %v", err)
+		}
 	}
-	//break
-	//}
+
 	client := pg.NewDownloadByIdClient(conn)
 	id := &pg.Id{Url: picturePath}
 	result, err := client.Download(context.Background(), id)

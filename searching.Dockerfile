@@ -2,6 +2,8 @@ FROM golang
 
 EXPOSE 50111
 
+ENV DWNLD=""
+
 ADD ./searchingServer /go/src/github.com/KitlerUA/GetMePhoto/searchingServer
 ADD ./graber /go/src/github.com/KitlerUA/GetMePhoto/graber
 RUN mkdir -p /home/kitler/Pictures
