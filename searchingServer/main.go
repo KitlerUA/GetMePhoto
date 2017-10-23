@@ -72,6 +72,7 @@ func (server) Get(ctx context.Context, tag *pg.Tag) (*pg.Photo, error) {
 		}
 	} else {
 		conn, err = grpc.DialContext(ctx, defaultConnection, grpc.WithInsecure(), grpc.WithBlock())
+		log.Printf("Adrress use default address: %v", address)
 		if err != nil {
 			log.Fatalf("cannot connect to server: %v", err)
 		}
