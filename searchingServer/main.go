@@ -14,17 +14,18 @@ import (
 	"github.com/Sirupsen/logrus"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"log"
+
 	"os"
 	"time"
 )
 
 const (
 	defaultConnection = "downloading:50112"
+	defaultPort       = 8080
 )
 
 func main() {
-	port := flag.Int("p", 50111, "port to connect loading server")
+	port := flag.Int("p", defaultPort, "port to connect loading server")
 	flag.Parse()
 
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
@@ -47,10 +48,10 @@ func (server) Get(ctx context.Context, tag *pg.Tag) (*pg.Photo, error) {
 	root := "/home/kitler/Pictures"
 	files, err := ioutil.ReadDir(root)
 	if err != nil {
-		fmt.Errorf("cannot read directory %v", root)
+		logrus.Fatalf("cannot read directory %v", root)
 		return new(pg.Photo), err
 	}
-	var picturePath string = ""
+	var picturePath string
 	for _, f := range files {
 		if !f.IsDir() {
 			if strings.Contains(f.Name(), tag.Tag) {
@@ -65,15 +66,15 @@ func (server) Get(ctx context.Context, tag *pg.Tag) (*pg.Photo, error) {
 	defer cncl()
 	if address := os.Getenv("DWNLD"); address != "" {
 		conn, err = grpc.DialContext(ctx, address, grpc.WithInsecure(), grpc.WithBlock())
-		log.Printf("Adrress pass as arg: %v", address)
+		logrus.Printf("Address pass as arg: %v", address)
 		if err != nil {
-			log.Fatalf("cannot connect to server: %v", err)
+			logrus.Fatalf("cannot connect to server: %v", err)
 		}
 	} else {
 		conn, err = grpc.DialContext(ctx, defaultConnection, grpc.WithInsecure(), grpc.WithBlock())
-		log.Printf("Adrress use default address: %v", address)
+		logrus.Printf("Address use default address: %v", address)
 		if err != nil {
-			log.Fatalf("cannot connect to server: %v", err)
+			logrus.Fatalf("cannot connect to server: %v", err)
 		}
 	}
 
@@ -81,7 +82,7 @@ func (server) Get(ctx context.Context, tag *pg.Tag) (*pg.Photo, error) {
 	id := &pg.Id{Url: picturePath}
 	result, err := client.Download(context.Background(), id)
 	if err != nil {
-		log.Fatalf("cannot download photo: %v", err)
+		logrus.Fatalf("cannot download photo: %v", err)
 		return new(pg.Photo), err
 	}
 	return result, nil

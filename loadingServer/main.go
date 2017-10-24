@@ -15,8 +15,12 @@ import (
 	"log"
 )
 
+const (
+	defaultPort = 8080
+)
+
 func main() {
-	port := flag.Int("p", 50112, "port to connect to loading server")
+	port := flag.Int("p", defaultPort, "port to connect to loading server")
 	flag.Parse()
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
@@ -29,7 +33,7 @@ func main() {
 
 	err = s.Serve(lis)
 	if err != nil {
-		fmt.Errorf("could not serve")
+		logrus.Fatal("Could not serve")
 	}
 }
 
@@ -40,7 +44,7 @@ func (server) Download(ctx context.Context, id *pg.Id) (*pg.Photo, error) {
 	defer ctx.Done()
 	photo, err := ioutil.ReadFile(id.Url)
 	if err != nil {
-		fmt.Errorf("cannot read file %v", id.Url)
+		logrus.Fatalf("cannot read file %v", id.Url)
 		return &pg.Photo{}, err
 	}
 	result := &pg.Photo{Image: photo}

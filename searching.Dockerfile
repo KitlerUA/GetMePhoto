@@ -1,6 +1,6 @@
 FROM golang
 
-EXPOSE 50111
+EXPOSE 8080
 
 ENV DWNLD=""
 

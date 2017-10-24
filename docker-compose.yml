@@ -5,19 +5,20 @@ services:
       context: .
       dockerfile: searching.Dockerfile
     ports:
-      - "50111:50111"
+      - "50111:8080"
     networks:
       kitler:
         aliases:
           - searching
     environment:
-      DWNLD: 'downloading:50112'
+      DWNLD: 'downloading:8080'
   download:
+    image: down_image
     build:
       context: .
       dockerfile: loading.Dockerfile
     ports:
-      - "50112:50112"
+      - "50112:8080"
     networks:
       kitler:
         aliases:
