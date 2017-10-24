@@ -12,7 +12,6 @@ import (
 	"github.com/Sirupsen/logrus"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"log"
 )
 
 const (
@@ -40,7 +39,6 @@ func main() {
 type server struct{}
 
 func (server) Download(ctx context.Context, id *pg.Id) (*pg.Photo, error) {
-	log.Println("In Download func")
 	defer ctx.Done()
 	photo, err := ioutil.ReadFile(id.Url)
 	if err != nil {
@@ -48,6 +46,6 @@ func (server) Download(ctx context.Context, id *pg.Id) (*pg.Photo, error) {
 		return &pg.Photo{}, err
 	}
 	result := &pg.Photo{Image: photo}
-	log.Println(id.Url, "loaded")
+	logrus.Infof(id.Url, "loaded")
 	return result, nil
 }

@@ -45,7 +45,7 @@ func main() {
 type server struct{}
 
 func (server) Get(ctx context.Context, tag *pg.Tag) (*pg.Photo, error) {
-	root := "/home/kitler/Pictures"
+	root := "."
 	files, err := ioutil.ReadDir(root)
 	if err != nil {
 		logrus.Fatalf("cannot read directory %v", root)
