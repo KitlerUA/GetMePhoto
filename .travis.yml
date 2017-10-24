@@ -13,6 +13,8 @@ before_install:
 
  - docker-compose --version
 
+ - export DOCKER_HOST=$TRAVIS_BUILD_DIR
+
  - docker-compose build
  - docker-compose start
 
