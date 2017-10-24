@@ -13,7 +13,6 @@ services:
     environment:
       DWNLD: 'downloading:8080'
   download:
-    image: down_image
     build:
       context: .
       dockerfile: loading.Dockerfile
