@@ -15,8 +15,7 @@ before_install:
 
  - export DOCKER_HOST=$TRAVIS_BUILD_DIR
 
- - docker-compose build
- - docker-compose start
+ - docker-compose up
 
  - docker ps
 
